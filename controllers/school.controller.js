@@ -1,8 +1,10 @@
 var conn = require('../services/conn.service');
+var School = require ('../models/school.model');
 
 function addSchool(req, res) {
 
-    var school = req.body;
+    var school = new School ();
+    school.set ( req.body )
     console.log ( school );
 
     conn.pool.getConnection(function(err, connection) {
