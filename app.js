@@ -1,0 +1,31 @@
+'use strict'
+
+var express = require('express');
+var bodyParser = require('body-parser');
+
+var app = express();
+
+// Cargar rutas
+//var driver_routes = require('./routes/driver.router');
+//var app_routes = require('./routes/app.router');
+
+
+// Configurar cabeceras HTTP
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Access-Control-Expose-Headers', 'Authorization');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Rutas base
+//app.use('/api/v1/driver', driver_routes);
+//app.use('/api/v1', app_routes);
+
+
+module.exports = app;
