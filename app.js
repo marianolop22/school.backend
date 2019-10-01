@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 // Cargar rutas
-//var driver_routes = require('./routes/driver.router');
+var school_routes = require('./routes/school.routes');
 //var app_routes = require('./routes/app.router');
 
 
@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Rutas base
-//app.use('/api/v1/driver', driver_routes);
+app.use('/api/v1/school', school_routes);
 //app.use('/api/v1', app_routes);
 
 
