@@ -1,7 +1,7 @@
 class School {
     constructor(){
         this.idSchool = null;
-        this.description = null;
+        this.name = null;
         this.address = null;
         this.locality = null;
         this.province = null;
@@ -14,7 +14,7 @@ class School {
 
     set ( data ) {
         this.idSchool = data.idSchool;
-        this.description = data.description;
+        this.name = data.name;
         this.address = data.address;
         this.locality = data.locality;
         this.province = data.province;
@@ -28,7 +28,7 @@ class School {
 module.exports = School;
 
 // idSchool double
-// description varchar(45)
+// name varchar(45)
 // address varchar(45)
 // locality varchar(45)
 // province varchar(45)

@@ -28,9 +28,9 @@ conn.pool.getConnection(function(err, connection) {
   if (err) throw err; // not connected!
 
   // Use the connection
-  connection.query('SELECT description from school where idschool = 20269336154', function (error, results, fields) {
+  connection.query('SELECT 1+1 as result', function (error, results, fields) {
     // When done with the connection, release it.
-    console.log('The solution is: ', results[0].description);
+    console.log('The solution is: ', results[0].result);
     connection.release();
 
     // Handle error after the release.
