@@ -3,8 +3,8 @@ var app = express();
 var SchoolController = require ( '../controllers/school.controller');
 
 app.post('/add', SchoolController.addSchool );
-app.post('/updateMainImage', SchoolController.updateMainImage );
-app.post('/updateShieldImage', SchoolController.updateShieldImage );
+app.post('/updateImage', SchoolController.updateImage );
 app.get('/getSchool', SchoolController.getSchool );
+app.put('/updateSchool', SchoolController.updateSchool );
 
 module.exports = app;

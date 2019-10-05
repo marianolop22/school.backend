@@ -5,7 +5,6 @@ function addSchool(req, res) {
 
     var school = new School ();
     school.set ( req.body )
-    console.log (school);
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
@@ -24,8 +23,6 @@ function addSchool(req, res) {
             //console.log('The solution is: ', results );
             connection.release();
 
-            //console.log ( 'error', error);
-            // Handle error after the release.
             if (error) {
                 return res.status(400).json({
                     ok: false,
@@ -41,45 +38,19 @@ function addSchool(req, res) {
     });
 }
 
-function updateMainImage (req, res) {
+function updateImage (req, res) {
+
+    urlImage = (req.body.urlImage) ? req.body.urlImage : null;
+    urlShield = (req.body.urlShield) ? req.body.urlShield : null;
+
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL updateSchoolMainImage (?,?)', [
+        connection.query('CALL updateSchoolImage (?,?,?)', [
                 parseFloat( req.body.idSchool ) ,
-                req.body.urlImage
-            ],
-            function (error, results, fields) {
-          // When done with the connection, release it.
-            //console.log('The solution is: ', results );
-            connection.release();
-
-            //console.log ( 'error', error);
-            // Handle error after the release.
-            if (error) {
-                return res.status(400).json({
-                    ok: false,
-                    message: error
-                });
-            } else {
-                return res.status(200).json({
-                ok: true,
-                message: 'se actualizo ok'
-                });
-            }
-        });
-    });
-}
-
-function updateShieldImage (req, res) {
-    conn.pool.getConnection(function(err, connection) {
-        if (err) throw err; // not connected!
-      
-        // Use the connection
-        connection.query('CALL updateSchoolShieldImage (?,?)', [
-                parseFloat( req.body.idSchool ) ,
-                req.body.urlShield
+                urlImage,
+                urlShield
             ],
             function (error, results, fields) {
           // When done with the connection, release it.
@@ -104,11 +75,16 @@ function updateShieldImage (req, res) {
 }
 
 function getSchool (req, res) {
+
+    if ( !req.query.idSchool ) {
+        return res.status(400).json({
+            ok: false,
+            message: error
+        });
+    }
     
-    //console.log (req.query);
     var school = new School ();
     school.set ( req.query );
-    //console.log (school);
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
@@ -133,7 +109,44 @@ function getSchool (req, res) {
                 school.set ( results[0][0]);
                 return res.status(200).json({
                 ok: true,
-                message: school
+                school
+                });
+            }
+        });
+    });
+}
+
+function updateSchool(req, res) {
+
+    var school = new School ();
+    school.set ( req.body )
+
+    conn.pool.getConnection(function(err, connection) {
+        if (err) throw err; // not connected!
+      
+        // Use the connection
+        connection.query('CALL updateSchool (?,?,?,?,?,?)', [
+                parseFloat( school.idSchool ) ,
+                school.name,
+                school.address,
+                school.locality,
+                school.province,
+                parseFloat (school.idUser )
+            ],
+            function (error, results, fields) {
+          // When done with the connection, release it.
+            //console.log('The solution is: ', results );
+            connection.release();
+
+            if (error) {
+                return res.status(400).json({
+                    ok: false,
+                    message: error
+                });
+            } else {
+                return res.status(200).json({
+                ok: true,
+                message: 'se actualizó ok'
                 });
             }
         });
@@ -143,11 +156,10 @@ function getSchool (req, res) {
 
 
 
-
 module.exports = {
     addSchool,
-    updateMainImage,
-    updateShieldImage,
-    getSchool
+    getSchool,
+    updateImage,
+    updateSchool
 
 };
