@@ -1,7 +1,7 @@
 'use strict'
 
 var app = require('./app');
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 8080
 var conn = require('./services/conn.service');
 
 

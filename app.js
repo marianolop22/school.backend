@@ -7,7 +7,7 @@ var app = express();
 
 // Cargar rutas
 var school_routes = require('./routes/school.routes');
-//var app_routes = require('./routes/app.router');
+var app_routes = require('./routes/app.routes');
 
 
 // Configurar cabeceras HTTP
@@ -25,7 +25,8 @@ app.use(bodyParser.json());
 
 // Rutas base
 app.use('/api/v1/school', school_routes);
-//app.use('/api/v1', app_routes);
+app.use('/api/v1', app_routes);
+
 
 
 module.exports = app;
