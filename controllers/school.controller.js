@@ -133,7 +133,7 @@ function getSchool (req, res) {
                 school.set ( results[0][0]);
                 return res.status(200).json({
                 ok: true,
-                message: school
+                school
                 });
             }
         });
