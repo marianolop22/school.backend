@@ -24,8 +24,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Rutas base
-app.use('/api/v1/school', school_routes);
-app.use('/api/v1', app_routes);
+app.use('/v1/school', school_routes);
+app.use('/v1', app_routes);
 
 
 
