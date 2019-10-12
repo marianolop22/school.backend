@@ -1,10 +1,11 @@
 var express = require('express');
 var app = express();
 var SchoolController = require ( '../controllers/school.controller');
+var mdAuthentication = require('../middlewares/authentication');
 
-app.post('/add', SchoolController.addSchool );
-app.post('/updateImage', SchoolController.updateImage );
-app.get('/getSchool', SchoolController.getSchool );
-app.put('/updateSchool', SchoolController.updateSchool );
+app.post('', mdAuthentication.checkToken, SchoolController.addSchool );
+app.get('', SchoolController.getSchool );
+app.put('', mdAuthentication.checkToken, SchoolController.updateSchool );
+app.post('/updateImage', mdAuthentication.checkToken, SchoolController.updateImage );
 
 module.exports = app;

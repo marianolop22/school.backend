@@ -16,7 +16,7 @@ function addSchool(req, res) {
                 school.address,
                 school.locality,
                 school.province,
-                parseFloat (school.idUser )
+                parseFloat (req.idUser )
             ],
             function (error, results, fields) {
           // When done with the connection, release it.
@@ -106,11 +106,19 @@ function getSchool (req, res) {
                     message: error
                 });
             } else {
-                school.set ( results[0][0]);
-                return res.status(200).json({
-                ok: true,
-                school
-                });
+
+                if ( results[0].length == 0 ) {
+                    return res.status(400).json({
+                        ok: false,
+                        message: 'no hay escuela con ese id'
+                    });
+                } else { 
+                    school.set ( results[0][0]);
+                    return res.status(200).json({
+                    ok: true,
+                    school
+                    });
+                }
             }
         });
     });
@@ -131,7 +139,7 @@ function updateSchool(req, res) {
                 school.address,
                 school.locality,
                 school.province,
-                parseFloat (school.idUser )
+                parseFloat (req.idUser )
             ],
             function (error, results, fields) {
           // When done with the connection, release it.
