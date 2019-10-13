@@ -7,7 +7,7 @@ var app = express();
 
 // Cargar rutas
 var school_routes = require('./routes/school.routes');
-var classroom_routes = require('./routes/classroom.routes');
+var groupTemplate_routes = require('./routes/groupTemplate.routes');
 var app_routes = require('./routes/app.routes');
 
 
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 // Rutas base
 app.use('/v1/school', school_routes);
-app.use('/v1/classroom', classroom_routes);
+app.use('/v1/groupTemplate', groupTemplate_routes);
 app.use('/v1', app_routes);
 
 

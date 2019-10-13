@@ -1,8 +1,8 @@
-class Classroom {
+class GroupTemplate {
 
     constructor(){
         this.idSchool = null;
-        this.idClassroom = null;
+        this.idGroup = null;
         this.description = null;
         this.creationDate = null;
         this.endDate = null;
@@ -11,7 +11,7 @@ class Classroom {
 
     set ( data ) {
         this.idSchool = data.idSchool;
-        this.idClassroom = data.idClassroom;
+        this.idGroup = data.idGroup;
         this.description = data.description;
         this.creationDate = data.creationDate;
         this.endDate = data.endDate;
@@ -19,5 +19,5 @@ class Classroom {
     }
 
 }
-module.exports = Classroom;
+module.exports = GroupTemplate;
 

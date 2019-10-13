@@ -1,5 +1,6 @@
 var conn = require('../services/conn.service');
 var School = require ('../models/school.model');
+var response = require('../services/response.service');
 
 function addSchool(req, res) {
 
@@ -24,15 +25,9 @@ function addSchool(req, res) {
             connection.release();
 
             if (error) {
-                return res.status(400).json({
-                    ok: false,
-                    message: error
-                });
+                return response.responseNotOk (res, error, null);
             } else {
-                return res.status(200).json({
-                ok: true,
-                message: 'se inserto ok'
-                });
+                return response.responseOk ( res,null,'201');
             }
         });
     });
@@ -60,15 +55,9 @@ function updateImage (req, res) {
             //console.log ( 'error', error);
             // Handle error after the release.
             if (error) {
-                return res.status(400).json({
-                    ok: false,
-                    message: error
-                });
+                return response.responseNotOk (res, error, null);
             } else {
-                return res.status(200).json({
-                ok: true,
-                message: 'se actualizo ok'
-                });
+                return response.responseOk ( res,null,'202');
             }
         });
     });
@@ -77,10 +66,7 @@ function updateImage (req, res) {
 function getSchool (req, res) {
 
     if ( !req.query.idSchool ) {
-        return res.status(400).json({
-            ok: false,
-            message: error
-        });
+        return response.responseNotOk (res, null, '402');
     }
     
     var school = new School ();
@@ -101,23 +87,14 @@ function getSchool (req, res) {
             //console.log ( 'error', error);
             // Handle error after the release.
             if (error) {
-                return res.status(400).json({
-                    ok: false,
-                    message: error
-                });
+                return response.responseNotOk (res, error, null);
             } else {
 
                 if ( results[0].length == 0 ) {
-                    return res.status(400).json({
-                        ok: false,
-                        message: 'no hay escuela con ese id'
-                    });
+                    return response.responseNotOk (res, null, '401');
                 } else { 
                     school.set ( results[0][0]);
-                    return res.status(200).json({
-                    ok: true,
-                    school
-                    });
+                    return response.responseOk ( res,school,null);
                 }
             }
         });
@@ -147,15 +124,9 @@ function updateSchool(req, res) {
             connection.release();
 
             if (error) {
-                return res.status(400).json({
-                    ok: false,
-                    message: error
-                });
+                return response.responseNotOk (res, error, null);
             } else {
-                return res.status(200).json({
-                ok: true,
-                message: 'se actualizó ok'
-                });
+                return response.responseOk ( res,null,'202');
             }
         });
     });
