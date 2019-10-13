@@ -25,9 +25,9 @@ function addSchool(req, res) {
             connection.release();
 
             if (error) {
-                return response.responseNotOk (res, error, null);
+                return response.sendNotOk (res, error, null);
             } else {
-                return response.responseOk ( res,null,'201');
+                return response.sendOk ( res,null,'201');
             }
         });
     });
@@ -55,9 +55,9 @@ function updateImage (req, res) {
             //console.log ( 'error', error);
             // Handle error after the release.
             if (error) {
-                return response.responseNotOk (res, error, null);
+                return response.sendNotOk (res, error, null);
             } else {
-                return response.responseOk ( res,null,'202');
+                return response.sendOk ( res,null,'202');
             }
         });
     });
@@ -66,7 +66,7 @@ function updateImage (req, res) {
 function getSchool (req, res) {
 
     if ( !req.query.idSchool ) {
-        return response.responseNotOk (res, null, '402');
+        return response.sendNotOk (res, null, '402');
     }
     
     var school = new School ();
@@ -87,14 +87,14 @@ function getSchool (req, res) {
             //console.log ( 'error', error);
             // Handle error after the release.
             if (error) {
-                return response.responseNotOk (res, error, null);
+                return response.sendNotOk (res, error, null);
             } else {
 
                 if ( results[0].length == 0 ) {
-                    return response.responseNotOk (res, null, '401');
+                    return response.sendNotOk (res, null, '401');
                 } else { 
                     school.set ( results[0][0]);
-                    return response.responseOk ( res,school,null);
+                    return response.sendOk ( res,school,null);
                 }
             }
         });
@@ -124,9 +124,9 @@ function updateSchool(req, res) {
             connection.release();
 
             if (error) {
-                return response.responseNotOk (res, error, null);
+                return response.sendNotOk (res, error, null);
             } else {
-                return response.responseOk ( res,null,'202');
+                return response.sendOk ( res,null,'202');
             }
         });
     });

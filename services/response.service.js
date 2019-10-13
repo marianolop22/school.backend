@@ -4,7 +4,7 @@ responseCodes['202'] = 'Actualizó OK';
 responseCodes['401'] = 'No existe el Id';
 responseCodes['402'] = 'Falta un parámetro en el servicio';
 
-function responseOk (res, content, code) {
+function sendOk (res, content, code) {
 
     return res.status(200).json({
         ok: true,
@@ -12,7 +12,7 @@ function responseOk (res, content, code) {
     });
 }
 
-function responseNotOk (res, error, code) {
+function sendNotOk (res, error, code) {
 
     return res.status(400).json({
         ok: false,
@@ -22,6 +22,6 @@ function responseNotOk (res, error, code) {
 }
 
 module.exports = {
-    responseOk,
-    responseNotOk
+    sendOk,
+    sendNotOk
 };
