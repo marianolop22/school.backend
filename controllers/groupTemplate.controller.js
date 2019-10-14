@@ -1,5 +1,6 @@
 var conn = require('../services/conn.service');
 var GroupTemplate = require ('../models/groupTemplate.model');
+var response = require('../services/response.service');
 
 function addGroupTemplate(req, res) {
 
@@ -34,19 +35,20 @@ function addGroupTemplate(req, res) {
 
 function getGroupTemplate (req, res) {
 
-    if ( !req.query.idGroupTemplate ) {
+    if ( !req.query.idGroup || !req.query.idSchool ) {
         return response.sendNotOk (res, null, '402');
     }
     
-    var grouptemplate = new GroupTemplate ();
-    grouptemplate.set ( req.query );
+    var groupTemplate = new GroupTemplate ();
+    groupTemplate.set ( req.query ); 
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL getGroupTemplate (?)', [
-                parseFloat( grouptemplate.idGroupTemplate )
+        connection.query('CALL getGroupTemplate (?,?)', [
+                parseFloat( groupTemplate.idSchool ),
+                groupTemplate.idGroup
             ],
             function (error, results) {
           // When done with the connection, release it.
@@ -62,13 +64,55 @@ function getGroupTemplate (req, res) {
                 if ( results[0].length == 0 ) {
                     return response.sendNotOk (res, null, '401');
                 } else { 
-                    grouptemplate.set ( results[0][0]);
-                    return response.sendOk ( res,grouptemplate,null);
+                    groupTemplate.set ( results[0][0]);
+                    return response.sendOk ( res,groupTemplate,null);
                 }
             }
         });
     });
 }
+
+
+function getGroupTemplate (req, res) {
+
+    if ( !req.query.idSchool ) {
+        return response.sendNotOk (res, null, '402');
+    }
+    
+    var groupTemplate = new GroupTemplate ();
+    groupTemplate.set ( req.query ); 
+
+    conn.pool.getConnection(function(err, connection) {
+        if (err) throw err; // not connected!
+      
+        // Use the connection
+        connection.query('CALL getGroupTemplateList (?)', [
+                parseFloat( groupTemplate.idSchool )
+            ],
+            function (error, results) {
+          // When done with the connection, release it.
+            //console.log('The solution is: ', results );
+            connection.release();
+
+            //console.log ( 'error', error);
+            // Handle error after the release.
+            if (error) {
+                return response.sendNotOk (res, error, null);
+            } else {
+
+                if ( results[0].length == 0 ) {
+                    return response.sendNotOk (res, null, '401');
+                } else { 
+                    return response.sendOk ( res,results[0],null);
+                }
+            }
+        });
+    });
+}
+
+
+
+
 
 function updateGroupTemplate(req, res) {
 
