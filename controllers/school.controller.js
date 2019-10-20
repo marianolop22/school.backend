@@ -12,12 +12,12 @@ function addSchool(req, res) {
       
         // Use the connection
         connection.query('CALL addSchool (?,?,?,?,?,?)', [
-                parseFloat( school.idSchool ) ,
+                school.idSchool,
                 school.name,
                 school.address,
                 school.locality,
                 school.province,
-                parseFloat (req.idUser )
+                req.idUser
             ],
             function (error, results, fields) {
           // When done with the connection, release it.
@@ -42,10 +42,11 @@ function updateImage (req, res) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL updateSchoolImage (?,?,?)', [
-                parseFloat( req.body.idSchool ) ,
+        connection.query('CALL updateSchoolImage (?,?,?,?)', [
+                req.body.idSchool,
                 urlImage,
-                urlShield
+                urlShield,
+                req.idUser
             ],
             function (error, results, fields) {
           // When done with the connection, release it.
@@ -77,7 +78,7 @@ function getSchool (req, res) {
       
         // Use the connection
         connection.query('CALL getSchool (?)', [
-                parseFloat( school.idSchool )
+                school.idSchool
             ],
             function (error, results) {
           // When done with the connection, release it.
@@ -110,13 +111,14 @@ function updateSchool(req, res) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL updateSchool (?,?,?,?,?,?)', [
-                parseFloat( school.idSchool ) ,
+        connection.query('CALL updateSchool (?,?,?,?,?,?,?)', [
+                school.idSchool,
                 school.name,
                 school.address,
                 school.locality,
                 school.province,
-                parseFloat (req.idUser )
+                school.endDate,
+                req.idUser
             ],
             function (error, results, fields) {
           // When done with the connection, release it.

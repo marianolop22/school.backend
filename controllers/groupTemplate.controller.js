@@ -14,10 +14,10 @@ function addGroupTemplate(req, res) {
       
         // Use the connection
         connection.query('CALL addGroupTemplate (?,?,?,?)', [
-                parseFloat( groupTemplate.idSchool ) ,
+                groupTemplate.idSchool,
                 groupTemplate.idGroup,
                 groupTemplate.description,
-                parseFloat (req.idUser )
+                req.idUser
             ],
             function (error, results, fields) {
           // When done with the connection, release it.
@@ -47,7 +47,7 @@ function getGroupTemplate (req, res) {
       
         // Use the connection
         connection.query('CALL getGroupTemplate (?,?)', [
-                parseFloat( groupTemplate.idSchool ),
+                groupTemplate.idSchool,
                 groupTemplate.idGroup
             ],
             function (error, results) {
@@ -87,7 +87,7 @@ function getGroupTemplate (req, res) {
       
         // Use the connection
         connection.query('CALL getGroupTemplateList (?)', [
-                parseFloat( groupTemplate.idSchool )
+                groupTemplate.idSchool
             ],
             function (error, results) {
           // When done with the connection, release it.
@@ -111,9 +111,6 @@ function getGroupTemplate (req, res) {
 }
 
 
-
-
-
 function updateGroupTemplate(req, res) {
 
     var grouptemplate = new GroupTemplate ();
@@ -123,12 +120,12 @@ function updateGroupTemplate(req, res) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL updateGroupTemplate (?,?,?,?,?,?)', [
-                parseFloat( grouptemplate.idGroupTemplate ) ,
-                grouptemplate.name,
-                grouptemplate.address,
-                grouptemplate.locality,
-                grouptemplate.province
+        connection.query('CALL updateGroupTemplate (?,?,?,?,?,?,?)', [
+                grouptemplate.idSchool,
+                grouptemplate.idGroup,
+                grouptemplate.description,
+                grouptemplate.endDate,
+                req.idUser
             ],
             function (error, results, fields) {
           // When done with the connection, release it.

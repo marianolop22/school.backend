@@ -5,6 +5,7 @@ class GroupTemplate {
         this.idGroup = null;
         this.description = null;
         this.creationDate = null;
+        this.modifiedDate = null;
         this.endDate = null;
         this.idUser = null;
     }
@@ -14,6 +15,7 @@ class GroupTemplate {
         this.idGroup = data.idGroup;
         this.description = data.description;
         this.creationDate = data.creationDate;
+        this.modifiedDate = data.modifiedDate;
         this.endDate = data.endDate;
         this.idUser = data.idUser;
     }

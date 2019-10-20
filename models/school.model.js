@@ -6,6 +6,7 @@ class School {
         this.locality = null;
         this.province = null;
         this.creationDate = null;
+        this.modifiedDate = null;
         this.endDate = null;
         this.idUser = null;
         this.urlImage = null;
@@ -19,6 +20,7 @@ class School {
         this.locality = data.locality;
         this.province = data.province;
         this.creationDate = data.creationDate;
+        this.modifiedDate = data.modifiedDate;
         this.endDate = data.endDate;
         this.idUser = data.idUser;
         this.urlImage = data.urlImage;
