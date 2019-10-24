@@ -73,7 +73,7 @@ function getGroupTemplate (req, res) {
 }
 
 
-function getGroupTemplate (req, res) {
+function getGroupTemplateList (req, res) {
 
     if ( !req.query.idSchool ) {
         return response.sendNotOk (res, null, '402');
@@ -120,7 +120,7 @@ function updateGroupTemplate(req, res) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL updateGroupTemplate (?,?,?,?,?,?,?)', [
+        connection.query('CALL updateGroupTemplate (?,?,?,?,?)', [
                 grouptemplate.idSchool,
                 grouptemplate.idGroup,
                 grouptemplate.description,
@@ -145,5 +145,6 @@ function updateGroupTemplate(req, res) {
 module.exports = {
     addGroupTemplate,
     getGroupTemplate,
+    getGroupTemplateList,
     updateGroupTemplate
 };
