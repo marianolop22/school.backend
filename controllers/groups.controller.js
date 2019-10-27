@@ -1,23 +1,21 @@
 var conn = require('../services/conn.service');
-var School = require ('../models/school.model');
+var Group = require ('../models/group.model');
 var response = require('../services/response.service');
 var utils = require ('../services/utils.service');
 
-function addSchool(req, res) {
+function addGroup(req, res) {
 
-    var school = new School ();
-    school.set ( req.body )
+    var group = new Group ();
+    group.set ( req.body )
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL addSchool (?,?,?,?,?,?)', [
-                school.idSchool,
-                school.name,
-                school.address,
-                school.locality,
-                school.province,
+        connection.query('CALL addGroup (?,?,?,?)', [
+                group.idSchool,
+                group.idGroup,
+                group.year,
                 req.idUser
             ],
             function (error, results, fields) {
@@ -34,52 +32,23 @@ function addSchool(req, res) {
     });
 }
 
-function updateImage (req, res) {
+function getGroup (req, res) {
 
-    urlImage = (req.body.urlImage) ? req.body.urlImage : null;
-    urlShield = (req.body.urlShield) ? req.body.urlShield : null;
-
-    conn.pool.getConnection(function(err, connection) {
-        if (err) throw err; // not connected!
-      
-        // Use the connection
-        connection.query('CALL updateSchoolImage (?,?,?,?)', [
-                req.body.idSchool,
-                urlImage,
-                urlShield,
-                req.idUser
-            ],
-            function (error, results, fields) {
-          // When done with the connection, release it.
-            //console.log('The solution is: ', results );
-            connection.release();
-
-            //console.log ( 'error', error);
-            // Handle error after the release.
-            if (error) {
-                return response.sendNotOk (res, error, null);
-            } else {
-                return response.sendOk ( res,null,'202');
-            }
-        });
-    });
-}
-
-function getSchool (req, res) {
-
-    if ( !req.query.idSchool ) {
+    if ( !req.query.idGroup || !req.query.idSchool || !req.query.year) {
         return response.sendNotOk (res, null, '402');
     }
     
-    var school = new School ();
-    school.set ( req.query );
+    var group = new Group ();
+    group.set ( req.query ); 
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL getSchool (?)', [
-                school.idSchool
+        connection.query('CALL getGroup (?,?,?)', [
+                group.idSchool,
+                group.idGroup,
+                group.year
             ],
             function (error, results) {
           // When done with the connection, release it.
@@ -95,34 +64,72 @@ function getSchool (req, res) {
                 if ( results[0].length == 0 ) {
                     return response.sendNotOk (res, null, '401');
                 } else { 
-                    school.set ( results[0][0]);
-                    return response.sendOk ( res,school,null);
+                    group.set ( results[0][0]);
+                    return response.sendOk ( res,group,null);
                 }
             }
         });
     });
 }
 
-function updateSchool(req, res) {
 
-    var school = new School ();
-    school.set ( req.body );
+function getGroupList (req, res) {
 
-    if ( !utils.checkDateForSP ( school, 'endDate' ) ) {
-        return response.sendNotOk ( res, null, '403' );
+    if ( !req.query.idSchool ) {
+        return response.sendNotOk (res, null, '402');
     }
+    
+    var group = new Group ();
+    group.set ( req.query ); 
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL updateSchool (?,?,?,?,?,?,?)', [
-                school.idSchool,
-                school.name,
-                school.address,
-                school.locality,
-                school.province,
-                school.endDate,
+        connection.query('CALL getGroupList (?,?)', [
+                group.idSchool,
+                group.year
+            ],
+            function (error, results) {
+          // When done with the connection, release it.
+            //console.log('The solution is: ', results );
+            connection.release();
+
+            //console.log ( 'error', error);
+            // Handle error after the release.
+            if (error) {
+                return response.sendNotOk (res, error, null);
+            } else {
+
+                if ( results[0].length == 0 ) {
+                    return response.sendNotOk (res, null, '401');
+                } else { 
+                    return response.sendOk ( res,results[0],null);
+                }
+            }
+        });
+    });
+}
+
+
+function updateGroup(req, res) {
+
+    var group = new Group ();
+    group.set ( req.body )
+
+    if ( !utils.checkDateForSP ( group, 'endDate' ) ) {
+        return response.sendNotOk ( res, null, '403' );
+    }
+
+    conn.pool.getConnection( function( err, connection ) {
+        if (err) throw err; // not connected!
+      
+        // Use the connection
+        connection.query('CALL updateGroup (?,?,?,?,?)', [
+                group.idSchool,
+                group.idGroup,
+                group.year,
+                group.endDate, // ( endDate ) ? endDate.format('YYYY/MM/DD') : null,
                 req.idUser
             ],
             function (error, results, fields) {
@@ -140,12 +147,9 @@ function updateSchool(req, res) {
 }
 
 
-
-
 module.exports = {
-    addSchool,
-    getSchool,
-    updateImage,
-    updateSchool
-
+    addGroup,
+    getGroup,
+    getGroupList,
+    updateGroup
 };

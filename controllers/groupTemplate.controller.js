@@ -1,6 +1,7 @@
 var conn = require('../services/conn.service');
 var GroupTemplate = require ('../models/groupTemplate.model');
 var response = require('../services/response.service');
+var utils = require ('../services/utils.service');
 
 function addGroupTemplate(req, res) {
 
@@ -115,6 +116,10 @@ function updateGroupTemplate(req, res) {
 
     var grouptemplate = new GroupTemplate ();
     grouptemplate.set ( req.body )
+
+    if ( !utils.checkDateForSP ( grouptemplate, 'endDate' ) ) {
+        return response.sendNotOk ( res, null, '403' );
+    }
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
