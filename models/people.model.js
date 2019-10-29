@@ -37,5 +37,5 @@ class People {
     }
 
 }
-module.exports = Group;
+module.exports = People;
 
