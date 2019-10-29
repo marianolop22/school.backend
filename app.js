@@ -9,6 +9,7 @@ var app = express();
 var school_routes = require('./routes/school.routes');
 var groupTemplate_routes = require('./routes/groupTemplate.routes');
 var groups_routes = require('./routes/groups.routes');
+var people_routes = require('./routes/people.routes');
 var app_routes = require('./routes/app.routes');
 
 
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 app.use('/v1/school', school_routes);
 app.use('/v1/groupTemplate', groupTemplate_routes);
 app.use('/v1/groups', groups_routes);
+app.use('/v1/people', people_routes);
 app.use('/v1', app_routes);
 
 

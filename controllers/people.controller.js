@@ -1,21 +1,21 @@
 var conn = require('../services/conn.service');
-var Group = require ('../models/group.model');
+var People = require ('../models/people.model');
 var response = require('../services/response.service');
 var utils = require ('../services/utils.service');
 
-function addGroup(req, res) {
+function addPeople(req, res) {
 
-    var group = new Group ();
-    group.set ( req.body )
+    var people = new People ();
+    people.set ( req.body )
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL addGroup (?,?,?,?)', [
-                group.idSchool,
-                group.idGroup,
-                group.year,
+        connection.query('CALL addPeople (?,?,?,?)', [
+                people.idSchool,
+                people.idPeople,
+                people.year,
                 req.idUser
             ],
             function (error, results, fields) {
@@ -32,23 +32,23 @@ function addGroup(req, res) {
     });
 }
 
-function getGroup (req, res) {
+function getPeople (req, res) {
 
-    if ( !req.query.idGroup || !req.query.idSchool || !req.query.year) {
+    if ( !req.query.idPeople || !req.query.idSchool || !req.query.year) {
         return response.sendNotOk (res, null, '402');
     }
     
-    var group = new Group ();
-    group.set ( req.query ); 
+    var people = new People ();
+    people.set ( req.query ); 
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL getGroup (?,?,?)', [
-                group.idSchool,
-                group.idGroup,
-                group.year
+        connection.query('CALL getPeople (?,?,?)', [
+                people.idSchool,
+                people.idPeople,
+                people.year
             ],
             function (error, results) {
           // When done with the connection, release it.
@@ -64,8 +64,8 @@ function getGroup (req, res) {
                 if ( results[0].length == 0 ) {
                     return response.sendNotOk (res, null, '401');
                 } else { 
-                    group.set ( results[0][0]);
-                    return response.sendOk ( res,group,null);
+                    people.set ( results[0][0]);
+                    return response.sendOk ( res,people,null);
                 }
             }
         });
@@ -73,22 +73,22 @@ function getGroup (req, res) {
 }
 
 
-function getGroupList (req, res) {
+function getPeopleList (req, res) {
 
     if ( !req.query.idSchool ) {
         return response.sendNotOk (res, null, '402');
     }
     
-    var group = new Group ();
-    group.set ( req.query ); 
+    var people = new People ();
+    people.set ( req.query ); 
 
     conn.pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL getGroupList (?,?)', [
-                group.idSchool,
-                group.year
+        connection.query('CALL getPeopleList (?,?)', [
+                people.idSchool,
+                people.year
             ],
             function (error, results) {
           // When done with the connection, release it.
@@ -112,12 +112,12 @@ function getGroupList (req, res) {
 }
 
 
-function updateGroup(req, res) {
+function updatePeople(req, res) {
 
-    var group = new Group ();
-    group.set ( req.body )
+    var people = new People ();
+    people.set ( req.body )
 
-    if ( !utils.checkDateForSP ( group, 'endDate' ) ) {
+    if ( !utils.checkDateForSP ( people, 'endDate' ) ) {
         return response.sendNotOk ( res, null, '403' );
     }
 
@@ -125,11 +125,11 @@ function updateGroup(req, res) {
         if (err) throw err; // not connected!
       
         // Use the connection
-        connection.query('CALL updateGroup (?,?,?,?,?)', [
-                group.idSchool,
-                group.idGroup,
-                group.year,
-                group.endDate, // ( endDate ) ? endDate.format('YYYY/MM/DD') : null,
+        connection.query('CALL updatePeople (?,?,?,?,?)', [
+                people.idSchool,
+                people.idPeople,
+                people.year,
+                people.endDate, // ( endDate ) ? endDate.format('YYYY/MM/DD') : null,
                 req.idUser
             ],
             function (error, results, fields) {
@@ -148,8 +148,8 @@ function updateGroup(req, res) {
 
 
 module.exports = {
-    addGroup,
-    getGroup,
-    getGroupList,
-    updateGroup
+    addPeople,
+    getPeople,
+    getPeopleList,
+    updatePeople
 };
